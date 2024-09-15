@@ -1,39 +1,56 @@
+
 #ifndef NOTES
 #define NOTES
 
-// BASE CLASS (ABSTRACT)
 #include <chrono>
 #include <string>
+
+// BASE CLASS (ABSTRACT)
 class note {
 private:
-  char *time_[20];
+  std::chrono::time_point<std::chrono::system_clock> time_;
+  std::chrono::time_point<std::chrono::system_clock> time_m_;
+  char priority_alphabatical_;
   std::string *note_;
-  char *priority_;
+  virtual void show_note() const = 0;
 
 public:
-  explicit note(std::chrono::time_point<std::chrono::system_clock> *time,
-                std::string *note, char *priority);
-  ~note();
-  virtual void chage() = 0;
-  virtual void write() = 0;
+  explicit note(std::string *note, char priority_alphabatical = 'A');
+  virtual ~note();
+  virtual void change(std::string *note, char priority_alphabatical = 'A');
+  virtual void show() const;
 };
 
 // HEADED NOTE
 class headed_note : public note {
 private:
-  char *header_[30];
+  std::string *header_;
+  virtual void show_note() const override;
 
 public:
-  explicit headed_note(std::chrono::time_point<std::chrono::system_clock> *time,
-                       std::string note, char *priority, std::string header);
-  virtual void chage();
-  virtual void write();
+  explicit headed_note(std::string *note, std::string *header,
+                       char priority_alphabatical = 'A');
+  virtual ~headed_note();
+  virtual void change(std::string *note, std::string *header,
+                      char priority_alphabatical = 'A');
+  virtual void show() const override;
 };
+
+#include "structures.h"
 
 // NOTE WITH DATE
 class date_note : public note {
 private:
-  // std::string
+  date *date_;
+  virtual void show_note() const override;
+
+public:
+  explicit date_note(std::string *note, date *date,
+                     char priority_alphabatical = 'A');
+  virtual ~date_note();
+  virtual void change(std::string *note, date *date,
+                      char priority_alphabatical = 'A');
+  virtual void show() const override;
 };
 
 #endif // !NOTES
