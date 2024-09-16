@@ -1,17 +1,22 @@
 #ifndef NOTES
 #define NOTES
 
-#include "functions.h"
+#include "utils.h"
 #include <chrono>
 #include <string>
-
+#include <vector>
 // BASE CLASS (ABSTRACT)
+namespace MyNote {
 class note {
 private:
   std::chrono::time_point<std::chrono::system_clock> time_;
   std::chrono::time_point<std::chrono::system_clock> time_m_;
   priority_gen priority_gen_;
   std::string *note_;
+  friend void sorting(std::vector<MyNote::note *> &vect, settings config);
+  friend void sort_notes(std::vector<MyNote::note *>::iterator begin,
+                         std::vector<MyNote::note *>::iterator end,
+                         settings::sorting sort_by);
 
 protected:
   virtual void show_note() const = 0;
@@ -22,7 +27,7 @@ public:
   virtual ~note();
   virtual void change(std::string *note,
                       priority_gen priority_gen = priority_gen::High);
-  virtual void show() const;
+  virtual void show(const settings config) const;
 };
 
 // HEADED NOTE
@@ -39,7 +44,7 @@ public:
   virtual ~headed_note();
   virtual void change(std::string *note, std::string *header,
                       priority_gen priority_gen = priority_gen::High);
-  virtual void show() const override;
+  virtual void show(const settings config) const override;
 };
 
 // NOTE WITH DATE
@@ -56,7 +61,21 @@ public:
   virtual ~date_note();
   virtual void change(std::string *note, date *date,
                       priority_gen priority_gen = priority_gen::High);
-  virtual void show() const override;
+  virtual void show(const settings config) const override;
 };
 
 #endif // !NOTES
+
+#ifndef SORTING
+#define SORTING
+
+#include "utils.h"
+#include <vector>
+
+void sorting(std::vector<MyNote::note *> &vect, settings config);
+void sort_notes(std::vector<MyNote::note *>::iterator begin,
+                std::vector<MyNote::note *>::iterator end,
+                settings::sorting sort_by);
+
+#endif // !SORTING
+} // namespace MyNote
