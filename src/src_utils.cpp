@@ -1,9 +1,20 @@
-#include "../../headers/utils.h"
+#include "../headers/utils.h"
 #include <chrono>
 #include <ctime>
 #include <iostream>
 #include <sstream>
 #include <string>
+
+// <--------------------- DATE STRUCT ---------------------->
+
+void date::show() const {
+  std::cout << year_ << "." << month_ << "." << day_ << std::endl;
+}
+
+date::date(int year, int month, int day)
+    : day_(day), year_(year), month_(month) {}
+
+// <--------------------- TIME FUNCTIONS ---------------------->
 
 void print_string(const std::string &str) {
   std::istringstream stream(str);
@@ -45,10 +56,3 @@ time_to_string(const std::chrono::time_point<std::chrono::system_clock> &time,
 
   return std::string(buffer);
 }
-
-void date::show() const {
-  std::cout << year_ << "." << month_ << "." << day_ << std::endl;
-}
-
-date::date(int year, int month, int day)
-    : day_(day), year_(year), month_(month) {}

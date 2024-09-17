@@ -1,5 +1,7 @@
-#ifndef SETTINGS
-#define SETTINGS
+#ifndef UTILS_H_
+#define UTILS_H_
+
+// <--------------------- SETTINGS AND ENUMS ---------------------->
 
 struct settings {
   enum class sorting { time, time_m, priority_gen };
@@ -12,10 +14,8 @@ struct settings {
 
 enum class priority_gen { High, Middle, Low };
 
-#endif // !SETTINGS
+// <--------------------- DATE STRUCT ---------------------->
 
-#ifndef TIME
-#define TIME
 struct date {
   int day_;
   int month_;
@@ -25,10 +25,7 @@ struct date {
   date(date &date) = default;
 };
 
-#endif // !TIME
-
-#ifndef NOTE_FUNCTIONS
-#define NOTE_FUNCTIONS
+// <--------------------- TIME FUNCTIONS ---------------------->
 
 #include <string>
 void print_string(const std::string &str);
@@ -36,4 +33,4 @@ std::string
 time_to_string(const std::chrono::time_point<std::chrono::system_clock> &time,
                const settings &config);
 
-#endif // !NOTE_FUNCTIONS
+#endif // !UTILS_H_

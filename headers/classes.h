@@ -1,11 +1,13 @@
-#ifndef NOTES
-#define NOTES
+#ifndef CLASSES_H_
+#define CLASSES_H_
 
 #include "utils.h"
 #include <chrono>
 #include <string>
 #include <vector>
-// BASE CLASS (ABSTRACT)
+
+// <--------------------- BASE CLASS NOTE (ABSTRACT) ---------------------->
+
 namespace MyNote {
 class note {
 private:
@@ -30,7 +32,8 @@ public:
   virtual void show(const settings config) const;
 };
 
-// HEADED NOTE
+// <--------------------- HEADED NOTE ---------------------->
+
 class headed_note : public note {
 private:
   std::string *header_;
@@ -47,7 +50,8 @@ public:
   virtual void show(const settings config) const override;
 };
 
-// NOTE WITH DATE
+// <--------------------- DATE NOTE ---------------------->
+
 class date_note : public note {
 private:
   date *date_;
@@ -64,10 +68,8 @@ public:
   virtual void show(const settings config) const override;
 };
 
-#endif // !NOTES
-
-#ifndef SORTING
-#define SORTING
+// <--------------------- SORING FUNCTIONS ---------------------->
+// <--------------------- THAT WORK WITH SETTINGS ---------------------->
 
 #include "utils.h"
 #include <vector>
@@ -77,5 +79,5 @@ void sort_notes(std::vector<MyNote::note *>::iterator begin,
                 std::vector<MyNote::note *>::iterator end,
                 settings::sorting sort_by);
 
-#endif // !SORTING
 } // namespace MyNote
+#endif // !CLASSES_H_

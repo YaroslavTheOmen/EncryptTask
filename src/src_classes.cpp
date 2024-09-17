@@ -1,5 +1,5 @@
-#include "../../headers/classes.h"
-#include "../../headers/utils.h"
+#include "../headers/classes.h"
+#include "../headers/utils.h"
 #include <algorithm>
 #include <chrono>
 #include <ctime>
@@ -7,7 +7,8 @@
 #include <string>
 #include <utility>
 
-// BASE CLASS (ABSTRACT) <--------------------------------------------->
+// <--------------------- BASE CLASS NOTE (ABSTRACT) ---------------------->
+
 MyNote::note::note(std::string *note, priority_gen priority_gen)
     : note_(new std::string(*note)), priority_gen_(priority_gen) {
   time_ = std::chrono::system_clock::now();
@@ -42,7 +43,8 @@ void MyNote::note::show(const settings config) const {
 
 MyNote::note::~note() { delete note_; }
 
-// HEADED NOTE <--------------------------------------------->
+// <--------------------- HEADED NOTE ---------------------->
+
 MyNote::headed_note::headed_note(std::string *note, std::string *header,
                                  priority_gen priority_gen)
     : note::note(note, priority_gen), header_(new std::string(*header)) {}
@@ -64,8 +66,7 @@ void MyNote::headed_note::show(const settings config) const {
 
 MyNote::headed_note::~headed_note() { delete header_; }
 
-// NOTE WITH DATE  <--------------------------------------------->
-// TODO: create all methods
+// <--------------------- DATE NOTE ---------------------->
 
 MyNote::date_note::date_note(std::string *note, date *date,
                              priority_gen priority_gen)
@@ -85,6 +86,9 @@ void MyNote::date_note::show(const settings config) const {
 }
 
 MyNote::date_note::~date_note() { delete date_; }
+
+// <--------------------- SORING FUNCTIONS ---------------------->
+// <--------------------- THAT WORK WITH SETTINGS ---------------------->
 
 // Refactored sorting function to reduce redundancy
 void MyNote::sort_notes(std::vector<MyNote::note *>::iterator begin,

@@ -1,50 +1,20 @@
-#include "../headers/classes.h"
-#include "../headers/utils.h"
-#include <string>
+#include "../headers/io_utils.h"
 
 int main() {
-  // Creating heap-allocated strings
-  std::string *headert = new std::string("Hello world");
-  std::string *note =
-      new std::string("********** ******* ************* ********** *********** "
-                      "******** **** *****"
-                      "********** ******* ************* ********** *********** "
-                      "******** **** *****"
-                      "********** ******* ************* ********** *********** "
-                      "******** **** *****"
-                      "********** ******* ************* ********** *********** "
-                      "******** **** *****"
-                      "********** ******* ************* ********** *********** "
-                      "******** **** *****");
+  std::string username = "user1";
+  std::string password = "my_secure_password";
 
-  // Creating heap-allocated date
-  date *date = new struct date(2005, 05, 14);
+  // Create a User object and hash the password
+  User user(username, password);
 
-  settings config;
-  config.sorting_ = settings::sorting::priority_gen;
+  std::cout << "Stored Hashed Password: " << user.getHashedPassword()
+            << std::endl;
 
-  // Creating heap-allocated note objects
-  MyNote::headed_note *test =
-      new MyNote::headed_note(note, headert, priority_gen::Low);
-  MyNote::headed_note *test1 =
-      new MyNote::headed_note(note, headert, priority_gen::High);
-  MyNote::headed_note *test2 =
-      new MyNote::headed_note(note, headert, priority_gen::High);
-  MyNote::date_note *test3 =
-      new MyNote::date_note(note, date, priority_gen::Middle);
-
-  // Creating a vector of note pointers
-  std::vector<MyNote::note *> vect;
-
-  vect.push_back(test);
-  vect.push_back(test1);
-  vect.push_back(test2);
-  vect.push_back(test3);
-
-  MyNote::sorting(vect, config);
-
-  for (auto x : vect) {
-    x->show(config);
+  // Verify the password
+  if (user.verifyPassword("my_secure_password")) {
+    std::cout << "Password verified successfully!" << std::endl;
+  } else {
+    std::cout << "Password verification failed!" << std::endl;
   }
 
   return 0;
