@@ -2,6 +2,8 @@
 
 A secure, console-based note-taking application written in C++, featuring AES-256 encryption using OpenSSL. The application allows users to create, view, edit, and delete notes securely. It prompts users for a password on startup and encrypts all stored data to ensure privacy.
 
+By default notes are stored in `project_dir/nlib/notes.dat`
+
 ## Table of Contents
 
 - [Features](#features)
@@ -75,8 +77,7 @@ A secure, console-based note-taking application written in C++, featuring AES-25
 1. **Clone the Repository**:
 
    ```bash
-   git clone https://github.com/yourusername/EncryptTask.git
-   cd EncryptTask
+   git clone https://github.com/YaroslavTheOmen/EncryptTask.git
    ```
 
 2. **Create Build Directory**:
@@ -105,7 +106,7 @@ A secure, console-based note-taking application written in C++, featuring AES-25
 1. **Clone the Repository**:
 
    ```bash
-   git clone https://github.com/yourusername/EncryptTask.git
+   git clone  https://github.com/YaroslavTheOmen/EncryptTask.git
    cd EncryptTask
    ```
 
