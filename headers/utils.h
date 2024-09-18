@@ -12,6 +12,8 @@ struct settings {
   prioriry_category prioriry_category_{prioriry_category::no};
   time_type time_type_{time_type::twenty_four};
   time_sort time_sort_{time_sort::newt};
+  void serialize(std::ostream &out) const;
+  static settings deserialize(std::istream &in);
 };
 
 enum class priority_gen { High, Middle, Low };

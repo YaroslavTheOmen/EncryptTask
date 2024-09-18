@@ -1,3 +1,4 @@
+#include "classes.h"
 #include "utils.h"
 
 #ifndef COMMANDS_NOTES

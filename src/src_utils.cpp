@@ -5,6 +5,44 @@
 #include <sstream>
 #include <string>
 
+// <--------------------- SERIALIZATION ---------------------->
+
+void settings::serialize(std::ostream &out) const {
+  uint8_t sorting_value = static_cast<uint8_t>(sorting_);
+  uint8_t priority_category_value = static_cast<uint8_t>(prioriry_category_);
+  uint8_t time_type_value = static_cast<uint8_t>(time_type_);
+  uint8_t time_sort_value = static_cast<uint8_t>(time_sort_);
+
+  out.write(reinterpret_cast<const char *>(&sorting_value),
+            sizeof(sorting_value));
+  out.write(reinterpret_cast<const char *>(&priority_category_value),
+            sizeof(priority_category_value));
+  out.write(reinterpret_cast<const char *>(&time_type_value),
+            sizeof(time_type_value));
+  out.write(reinterpret_cast<const char *>(&time_sort_value),
+            sizeof(time_sort_value));
+}
+
+settings settings::deserialize(std::istream &in) {
+  settings config;
+  uint8_t sorting_value, priority_category_value, time_type_value,
+      time_sort_value;
+
+  in.read(reinterpret_cast<char *>(&sorting_value), sizeof(sorting_value));
+  in.read(reinterpret_cast<char *>(&priority_category_value),
+          sizeof(priority_category_value));
+  in.read(reinterpret_cast<char *>(&time_type_value), sizeof(time_type_value));
+  in.read(reinterpret_cast<char *>(&time_sort_value), sizeof(time_sort_value));
+
+  config.sorting_ = static_cast<sorting>(sorting_value);
+  config.prioriry_category_ =
+      static_cast<prioriry_category>(priority_category_value);
+  config.time_type_ = static_cast<time_type>(time_type_value);
+  config.time_sort_ = static_cast<time_sort>(time_sort_value);
+
+  return config;
+}
+
 // <--------------------- DATE STRUCT ---------------------->
 
 void date::show() const {

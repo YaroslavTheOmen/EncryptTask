@@ -7,6 +7,10 @@
 #include <string>
 #include <vector>
 
+// <--------------------- FOR SERIALIZATION ---------------------->
+
+enum class NoteType : uint8_t { HeadedNote = 1, DateNote = 2 };
+
 // <--------------------- BASE CLASS NOTE (ABSTRACT) ---------------------->
 
 namespace MyNote {
@@ -19,10 +23,13 @@ private:
   friend void sorting(std::vector<MyNote::note *> &vect, settings config);
   friend void sort_notes(std::vector<MyNote::note *>::iterator begin,
                          std::vector<MyNote::note *>::iterator end,
-                         settings::sorting sort_by);
+                         settings::sorting sort_by,
+                         settings::time_sort time_order);
 
 protected:
   virtual void show_note() const = 0;
+  void serialize_base(std::ostream &out) const;
+  void deserialize_base(std::istream &in);
 
 public:
   explicit note(std::string *note,
@@ -32,6 +39,8 @@ public:
   change(const std::string *note = nullptr,
          const std::optional<priority_gen> &priority = std::nullopt);
   virtual void show(const settings config) const;
+  virtual void serialize(std::ostream &out) const = 0;
+  static note *deserialize(std::istream &in);
 };
 
 // <--------------------- HEADED NOTE ---------------------->
@@ -51,6 +60,9 @@ public:
   change(const std::string *note = nullptr, const std::string *header = nullptr,
          const std::optional<priority_gen> &priority = std::nullopt);
   virtual void show(const settings config) const override;
+
+  virtual void serialize(std::ostream &out) const override;
+  static headed_note *deserialize(std::istream &in);
 };
 
 // <--------------------- DATE NOTE ---------------------->
@@ -70,6 +82,8 @@ public:
   change(const std::string *note = nullptr, date *date = nullptr,
          const std::optional<priority_gen> &priority = std::nullopt);
   virtual void show(const settings config) const override;
+  virtual void serialize(std::ostream &out) const override;
+  static date_note *deserialize(std::istream &in);
 };
 
 // <--------------------- SORING FUNCTIONS ---------------------->
@@ -81,7 +95,6 @@ public:
 void sorting(std::vector<MyNote::note *> &vect, settings config);
 void sort_notes(std::vector<MyNote::note *>::iterator begin,
                 std::vector<MyNote::note *>::iterator end,
-                settings::sorting sort_by);
-
+                settings::sorting sort_by, settings::time_sort time_order);
 } // namespace MyNote
 #endif // !CLASSES_H_

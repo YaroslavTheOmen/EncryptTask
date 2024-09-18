@@ -21,6 +21,7 @@ void command_loop(std::vector<MyNote::note *> &notes, settings &config) {
 
       // Parse and execute the command
       if (!execute_command(input, notes, config)) {
+        system("clear");
         break; // Exit the loop if the command signals to quit
       }
 
@@ -44,7 +45,7 @@ void command_loop(std::vector<MyNote::note *> &notes, settings &config) {
         std::cout << "> ";
         std::getline(std::cin, input);
 
-        if (input == ":quit" || input == ":exit") {
+        if (input == ":quit" || input == ":exit" || input == "") {
           // Clear the terminal again before returning to the main loop
           system("clear"); // On Windows, use "cls"
           break;
@@ -69,7 +70,7 @@ void command_loop(std::vector<MyNote::note *> &notes, settings &config) {
         std::cout << "> ";
         std::getline(std::cin, input);
 
-        if (input == ":quit" || input == ":exit") {
+        if (input == ":quit" || input == ":exit" || input == "") {
           // Clear the terminal again before returning to the main loop
           system("clear"); // On Windows, use "cls"
           break;
@@ -294,8 +295,8 @@ void handle_change_command(std::istringstream &iss,
 }
 
 void handle_s_command(std::istringstream &iss, settings &config) {
-  std::string sort_by, priority_category, time_type;
-  iss >> sort_by >> priority_category >> time_type;
+  std::string sort_by, priority_category, time_type, time_order;
+  iss >> sort_by >> priority_category >> time_type >> time_order;
 
   // Validate and set sorting
   if (sort_by == "t")
@@ -304,7 +305,9 @@ void handle_s_command(std::istringstream &iss, settings &config) {
     config.sorting_ = settings::sorting::time_m;
   else if (sort_by == "p")
     config.sorting_ = settings::sorting::priority_gen;
-  else if (sort_by != "d")
+  else if (sort_by == "d") {
+    // Keep current setting
+  } else
     throw InvalidCommandException("Invalid sorting option.");
 
   // Validate and set priority category
@@ -314,7 +317,9 @@ void handle_s_command(std::istringstream &iss, settings &config) {
     config.prioriry_category_ = settings::prioriry_category::headed;
   else if (priority_category == "n")
     config.prioriry_category_ = settings::prioriry_category::no;
-  else if (priority_category != "d")
+  else if (priority_category == "d") {
+    // Keep current setting
+  } else
     throw InvalidCommandException("Invalid priority category option.");
 
   // Validate and set time type
@@ -322,8 +327,21 @@ void handle_s_command(std::istringstream &iss, settings &config) {
     config.time_type_ = settings::time_type::twelve;
   else if (time_type == "tw")
     config.time_type_ = settings::time_type::twenty_four;
-  else if (time_type != "d")
+  else if (time_type == "d") {
+    // Keep current setting
+  } else
     throw InvalidCommandException("Invalid time type option.");
+
+  // Validate and set time sorting order
+  if (time_order == "n")
+    config.time_sort_ = settings::time_sort::newt;
+  else if (time_order == "o")
+    config.time_sort_ = settings::time_sort::oldt;
+  else if (time_order == "d") {
+    // Keep current setting
+  } else if (!time_order.empty()) {
+    throw InvalidCommandException("Invalid time order option.");
+  }
 
   std::cout << "Settings have been updated." << std::endl;
 }
@@ -386,7 +404,8 @@ void print_help() {
   std::cout << "   d - date (for date notes)" << std::endl;
   std::cout << "   n - note text" << std::endl;
   std::cout << "   p - priority (h/m/l)" << std::endl;
-  std::cout << ":s t/tm/p/d t/h/n/d t/tw/d - Change settings" << std::endl;
+  std::cout << ":s t/tm/p/d t/h/n/d t/tw/d n/o/d - Change settings"
+            << std::endl;
   std::cout << ":help, :list - Show this help message" << std::endl;
   std::cout << ":update - Refresh the notes display" << std::endl;
 
