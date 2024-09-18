@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 
 # Project name and C++ standard
-project(ToDoConsol)
+project(EncryptTask)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
@@ -16,15 +16,16 @@ set(SOURCES
     src/main.cpp
     src/src_classes.cpp
     src/src_utils.cpp
+    src/src_commands.cpp
 )
 
 # Add executable
-add_executable(todo_console ${SOURCES})
+add_executable(EncryptTask ${SOURCES})
 
 # Link OpenSSL libraries
-target_link_libraries(todo_console ${OPENSSL_LIBRARIES})
+target_link_libraries(EncryptTask ${OPENSSL_LIBRARIES})
 
 # Optional: Set the output directory for binaries
-set_target_properties(todo_console PROPERTIES
+set_target_properties(EncryptTask PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/bin
 )

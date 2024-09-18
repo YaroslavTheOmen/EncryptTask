@@ -4,8 +4,8 @@
 #include <chrono>
 #include <ctime>
 #include <iostream>
+#include <optional>
 #include <string>
-#include <utility>
 
 // <--------------------- BASE CLASS NOTE (ABSTRACT) ---------------------->
 
@@ -15,9 +15,14 @@ MyNote::note::note(std::string *note, priority_gen priority_gen)
   time_m_ = time_;
 }
 
-void MyNote::note::change(std::string *note, priority_gen priority_gen) {
-  *note_ = std::move(*note);
-  priority_gen_ = priority_gen;
+void MyNote::note::change(const std::string *note,
+                          const std::optional<priority_gen> &priority) {
+  if (note) {
+    *note_ = *note;
+  }
+  if (priority.has_value()) {
+    priority_gen_ = priority.value();
+  }
   time_m_ = std::chrono::system_clock::now();
 }
 
@@ -49,10 +54,13 @@ MyNote::headed_note::headed_note(std::string *note, std::string *header,
                                  priority_gen priority_gen)
     : note::note(note, priority_gen), header_(new std::string(*header)) {}
 
-void MyNote::headed_note::change(std::string *note, std::string *header,
-                                 priority_gen priority_gen) {
-  note::change(note, priority_gen);
-  header_ = std::move(header);
+void MyNote::headed_note::change(const std::string *note,
+                                 const std::string *header,
+                                 const std::optional<priority_gen> &priority) {
+  this->note::change(note, priority);
+  if (header) {
+    *header_ = *header;
+  }
 }
 
 void MyNote::headed_note::show_note() const {
@@ -72,10 +80,13 @@ MyNote::date_note::date_note(std::string *note, date *date,
                              priority_gen priority_gen)
     : note::note(note, priority_gen), date_(date) {}
 
-void MyNote::date_note::change(std::string *note, date *date,
-                               priority_gen priority_gen) {
-  note::change(note, priority_gen);
-  date_ = std::move(date);
+void MyNote::date_note::change(const std::string *note, date *date,
+                               const std::optional<priority_gen> &priority) {
+  this->note::change(note, priority);
+  if (date) {
+    delete date_; // Delete the old date object
+    date_ = date; // Assign the new date object
+  }
 }
 
 void MyNote::date_note::show_note() const { date_->show(); }

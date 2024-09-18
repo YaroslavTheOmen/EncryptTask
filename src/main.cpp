@@ -1,20 +1,31 @@
-#include "../headers/io_utils.h"
+#include "../headers/classes.h"
+#include "../headers/commands.h"
+#include "../headers/utils.h"
+#include <iostream>
+#include <string>
+#include <vector>
 
 int main() {
-  std::string username = "user1";
-  std::string password = "my_secure_password";
+  std::string *tests1 = new std::string("This is test string");
+  MyNote::headed_note *test1 =
+      new MyNote::headed_note(tests1, tests1, priority_gen::High);
+  MyNote::headed_note *test2 = new MyNote::headed_note(tests1, tests1);
 
-  // Create a User object and hash the password
-  User user(username, password);
+  std::vector<MyNote::note *> notes;
+  notes.push_back(test1);
+  notes.push_back(test2);
 
-  std::cout << "Stored Hashed Password: " << user.getHashedPassword()
-            << std::endl;
+  settings config;
 
-  // Verify the password
-  if (user.verifyPassword("my_secure_password")) {
-    std::cout << "Password verified successfully!" << std::endl;
-  } else {
-    std::cout << "Password verification failed!" << std::endl;
+  try {
+    command_loop(notes, config);
+  } catch (const std::exception &e) {
+    std::cout << "A fatal error occurred: " << e.what() << std::endl;
+  }
+
+  // Clean up memory
+  for (auto note : notes) {
+    delete note;
   }
 
   return 0;

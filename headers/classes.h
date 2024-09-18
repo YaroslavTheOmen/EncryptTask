@@ -3,6 +3,7 @@
 
 #include "utils.h"
 #include <chrono>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -27,8 +28,9 @@ public:
   explicit note(std::string *note,
                 priority_gen priority_gen = priority_gen::High);
   virtual ~note();
-  virtual void change(std::string *note,
-                      priority_gen priority_gen = priority_gen::High);
+  virtual void
+  change(const std::string *note = nullptr,
+         const std::optional<priority_gen> &priority = std::nullopt);
   virtual void show(const settings config) const;
 };
 
@@ -45,8 +47,9 @@ public:
   explicit headed_note(std::string *note, std::string *header,
                        priority_gen priority_gen = priority_gen::High);
   virtual ~headed_note();
-  virtual void change(std::string *note, std::string *header,
-                      priority_gen priority_gen = priority_gen::High);
+  virtual void
+  change(const std::string *note = nullptr, const std::string *header = nullptr,
+         const std::optional<priority_gen> &priority = std::nullopt);
   virtual void show(const settings config) const override;
 };
 
@@ -63,8 +66,9 @@ public:
   explicit date_note(std::string *note, date *date,
                      priority_gen priority_gen = priority_gen::High);
   virtual ~date_note();
-  virtual void change(std::string *note, date *date,
-                      priority_gen priority_gen = priority_gen::High);
+  virtual void
+  change(const std::string *note = nullptr, date *date = nullptr,
+         const std::optional<priority_gen> &priority = std::nullopt);
   virtual void show(const settings config) const override;
 };
 
