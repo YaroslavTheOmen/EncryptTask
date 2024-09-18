@@ -415,7 +415,7 @@ void print_help() {
     std::cout << "> ";
     std::getline(std::cin, input);
 
-    if (input == ":quit" || input == ":exit") {
+    if (input == ":quit" || input == ":exit" || input == "") {
       // Clear the terminal again before returning to the main loop
       system("clear"); // On Windows, use "cls"
       return;

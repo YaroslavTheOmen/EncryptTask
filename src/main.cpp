@@ -2,6 +2,7 @@
 #include "../headers/commands.h"
 #include "../headers/encryption.h"
 #include "../headers/utils.h"
+#include <cstdlib>
 #include <fstream>
 #include <iostream>
 #include <openssl/err.h>
@@ -11,13 +12,16 @@
 #include <vector>
 
 int main() {
+
+  system("clear");
+
   // No need to initialize OpenSSL in OpenSSL 1.1.0 and later
   // OpenSSL_add_all_algorithms();
   // ERR_load_crypto_strings();
-
   std::vector<MyNote::note *> notes;
   settings config;
-  const std::string filename = "notes.dat";
+
+  const std::string filename = "../nlib/notes.dat";
   std::string password;
 
   // Check if file exists
