@@ -4,6 +4,9 @@ project(EncryptTask)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+# Set the output directory for the executable
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/bin")
+
 # Add your source files
 set(SOURCES
     src/main.cpp
@@ -13,7 +16,6 @@ set(SOURCES
     src/src_utils.cpp
     src/src_encryption.cpp
 )
-
 
 # Include directories
 include_directories(headers)
