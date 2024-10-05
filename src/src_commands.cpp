@@ -393,15 +393,16 @@ void print_help() {
   // Display help message
   std::cout << "Available commands:" << std::endl;
   std::cout << ":quit, :exit - Exit the program" << std::endl;
-  std::cout << ":wh \"note text\" \"header (default = Untitled)\" h/m/l"
-            << std::endl;
+  std::cout
+      << ":wh \"note text\" \"header (default = Untitled) (yyyy/mm/dd)\" h/m/l"
+      << std::endl;
   std::cout << ":wd \"note text\" \"date (default = today)\" h/m/l"
             << std::endl;
   std::cout << ":d note_number - Delete a note" << std::endl;
   std::cout << ":c note_number fields - Change a note (fields: h/d, n, p)"
             << std::endl;
   std::cout << "   h - header (for headed notes)" << std::endl;
-  std::cout << "   d - date (for date notes)" << std::endl;
+  std::cout << "   d - date (for date notes) (yyyy/mm/dd)" << std::endl;
   std::cout << "   n - note text" << std::endl;
   std::cout << "   p - priority (h/m/l)" << std::endl;
   std::cout << ":s t/tm/p/d t/h/n/d t/tw/d n/o/d - Change settings"

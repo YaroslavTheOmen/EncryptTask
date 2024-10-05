@@ -2,20 +2,21 @@
 
 A secure, console-based note-taking application written in C++, featuring AES-256 encryption using OpenSSL. The application allows users to create, view, edit, and delete notes securely. It prompts users for a password on startup and encrypts all stored data to ensure privacy.
 
-By default notes are stored in `project_dir/nlib/notes.dat`
+By default, notes are stored in `project_dir/nlib/notes.dat`
 
 ## Table of Contents
 
 - [Features](#features)
 - [Prerequisites](#prerequisites)
-- [Installation](#installation)
   - [macOS](#macos)
-  - [Linux](#linux)
+  - [Linux (Debian/Ubuntu)](#linux-debianubuntu)
+- [Installation (macOS / Linux)](#installation-macos--linux)
 - [Building the Application](#building-the-application)
-- [Running the Application](#running-the-application)
+- [Running the Application (macOS / Linux)](#running-the-application-macos--linux)
 - [Usage](#usage)
   - [Commands](#commands)
 - [Uninstallation](#uninstallation)
+  - [macOS and Linux](#macos-and-linux)
 - [License](#license)
 - [Acknowledgements](#acknowledgements)
 
@@ -70,43 +71,12 @@ By default notes are stored in `project_dir/nlib/notes.dat`
   sudo apt-get install build-essential cmake libssl-dev
   ```
 
-## Installation
-
-### macOS
+## Installation (macOS / Linux)
 
 1. **Clone the Repository**:
 
    ```bash
    git clone https://github.com/YaroslavTheOmen/EncryptTask.git
-   ```
-
-2. **Create Build Directory**:
-
-   ```bash
-   mkdir build
-   cd build
-   ```
-
-3. **Configure the Project**:
-
-   ```bash
-   cmake ..
-   ```
-
-4. **Build the Project**:
-
-   ```bash
-   make
-   ```
-
-   - The executable will be placed in the `bin` directory inside the project root (`EncryptTask/bin/EncryptTask`).
-
-### Linux
-
-1. **Clone the Repository**:
-
-   ```bash
-   git clone  https://github.com/YaroslavTheOmen/EncryptTask.git
    cd EncryptTask
    ```
 
@@ -147,9 +117,7 @@ If you need to rebuild the application after making changes:
    make
    ```
 
-## Running the Application
-
-### macOS and Linux
+## Running the Application (macOS / Linux)
 
 1. **Open Terminal**.
 
@@ -176,81 +144,85 @@ Upon running the application for the first time:
 
 ### Commands
 
-Use the following commands within the application to manage your notes:
+The application supports a variety of commands to manage your notes efficiently. Below is a list of available commands along with their descriptions:
 
-- **Add a Note**:
+#### Exit Commands
 
-  - **Syntax**:
+- `:quit`, `:exit`
+  - **Description**: Exit the program.
 
-    ```
-    :a [type] "note content" ["header/date"] [priority]
-    ```
+#### Adding Notes
 
-  - **Types**:
+- `:wh "note text" "header (default = Untitled)" h/m/l`
 
-    - `h`: Headed note.
-    - `d`: Date note.
+  - **Description**: Create a new **headed note** with the specified text, header, and priority.
+  - **Parameters**:
+    - `"note text"`: The content of the note.
+    - `"header"`: The header/title of the note. Defaults to "Untitled" if not provided.
+    - `h/m/l`: Priority level (high, medium, low).
 
-  - **Example**:
+- `:wd "note text" "date (default = today)" h/m/l`
+  - **Description**: Create a new **dated note** with the specified text, date, and priority.
+  - **Parameters**:
+    - `"note text"`: The content of the note.
+    - `"date"`: The date for the note (yyyy/mm/dd). Defaults to today's date if not provided.
+    - `h/m/l`: Priority level (high, medium, low).
 
-    - Add a headed note with high priority:
+#### Managing Notes
 
-      ```
-      :a h "This is a test note" "Test Header" h
-      ```
+- `:d note_number`
 
-- **View Notes**:
+  - **Description**: Delete a note by its number.
+  - **Parameters**:
+    - `note_number`: The identifier of the note you wish to delete.
 
-  ```
-  :v
-  ```
+- `:c note_number fields text_for_each_field`
+  - **Description**: Change or update the fields of an existing note.
+  - **Parameters**:
+    - `note_number`: The identifier of the note you wish to modify.
+    - `fields`: The specific fields to change. Available options:
+      - `h` - Header (for headed notes)
+      - `d` - Date (for dated notes) (yyyy/mm/dd)
+      - `n` - Note text
+      - `p` - Priority (h/m/l)
+    - `text_for_each_field`: Provide the new content for each field, separated by spaces.
 
-- **Change a Note**:
+#### Settings
 
-  - **Syntax**:
+- `:s t/tm/p/d t/h/n/d t/tw/d n/o/d`
+  - **Description**: Modify application settings.
+  - **Parameters**:
+    1. **Sorting**:
+       - `t` - Sort by creation time
+       - `tm` - Sort by modification time
+       - `p` - Sort by priority
+       - `d` - Make no changes
+    2. **Priority Category**:
+       - `t` - Date notes
+       - `h` - Headed notes
+       - `n` - No priority
+       - `d` - Make no changes
+    3. **Time Format**:
+       - `tw` - 24-hour time format
+       - `t` - 12-hour time format
+       - `d` - Make no changes
+    4. **Sorting for Time**:
+       - `o` - Old first
+       - `n` - New first
+       - `d` - Make no changes
 
-    ```
-    :c note_number fields [values...]
-    ```
+#### Help and Display
 
-  - **Fields**:
+- `:help`, `:list`
 
-    - `n`: Change note text.
-    - `h`: Change header (for headed notes).
-    - `d`: Change date (for date notes).
-    - `p`: Change priority.
+  - **Description**: Display the help message with all available commands.
 
-  - **Example**:
+- `:update`
+  - **Description**: Refresh the notes display to show the latest changes.
 
-    - Change note 1's content and priority:
+---
 
-      ```
-      :c 1 np "Updated content" m
-      ```
-
-- **Delete a Note**:
-
-  ```
-  :d note_number
-  ```
-
-- **Change Settings**:
-
-  ```
-  :s [setting_name] [values...]
-  ```
-
-- **Help**:
-
-  ```
-  :h
-  ```
-
-- **Exit the Application**:
-
-  ```
-  :q
-  ```
+For more detailed information on each command, use the `:help` command within the application.
 
 ## Uninstallation
 
