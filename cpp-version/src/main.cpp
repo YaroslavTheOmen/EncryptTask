@@ -63,7 +63,7 @@ int main() {
     std::string exeDir = get_executable_dir();
 
     // Construct the path to ../nlib/relative to exeDir
-    fs::path nlibPath = fs::path(exeDir) / "../nlib";
+    fs::path nlibPath = fs::path(exeDir) / "../../nlib";
 
     // Normalize the path to eliminate any ".." or "." segments
     nlibPath = fs::weakly_canonical(nlibPath);

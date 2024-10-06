@@ -1,6 +1,9 @@
 .DS_Store
-/bin/
-/build/
+/cpp-version/bin/
+/cpp-version/build/
 .cache
 /nlib/
 /.ccls-cache/
+/cpp-version/.ccls-cache/
+/venv/
+/python-version/venv/
