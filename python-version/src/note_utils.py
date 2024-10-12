@@ -3,17 +3,6 @@ from datetime import datetime
 from enum import Enum
 
 
-__all__ = [
-    "settings",
-    "settings_sorting",
-    "settings_priority_category",
-    "settings_time_sort",
-    "settings_time_type",
-    "priority_gen",
-    "date",
-]
-
-
 class settings_sorting(Enum):
     Time = 1
     Time_m = 2
@@ -65,7 +54,6 @@ def print_string(s: str) -> None:
     current_line = ""
 
     for word in words:
-        # Check if adding the next word exceeds the line length limit
         if len(current_line) + len(word) + 1 > 45:
             print(current_line)
             current_line = word
@@ -74,13 +62,11 @@ def print_string(s: str) -> None:
                 current_line += " "
             current_line += word
 
-    # Print any remaining words in the last line
     if current_line:
         print(current_line)
 
 
 def time_to_string(time: datetime, config: settings) -> str:
-    """Convert the datetime object to a string based on the config settings."""
     if config.time_type == settings_time_type.Twenty_four:
         return time.strftime("%Y-%m-%d %H:%M:%S")
     else:
