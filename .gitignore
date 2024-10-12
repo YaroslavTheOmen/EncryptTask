@@ -7,3 +7,4 @@
 /cpp-version/.ccls-cache/
 /venv/
 /python-version/venv/
+/python-version/src/__pycache__
