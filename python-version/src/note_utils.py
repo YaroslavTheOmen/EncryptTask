@@ -3,26 +3,31 @@ from datetime import datetime
 from enum import Enum
 
 
+class NoteType(Enum):
+    HeadedNote = 0
+    DateNote = 1
+
+
 class settings_sorting(Enum):
-    Time = 1
+    Time = 0
+    Priority_gen = 1
     Time_m = 2
-    Priority_gen = 3
 
 
 class settings_priority_category(Enum):
-    Time = 1
-    Headed = 2
-    No = 3
+    Time = 0
+    Headed = 1
+    No = 2
 
 
 class settings_time_type(Enum):
-    Twelve = 1
-    Twenty_four = 2
+    Twelve = 0
+    Twenty_four = 1
 
 
 class settings_time_sort(Enum):
+    Newt = 0
     Oldt = 1
-    Newt = 2
 
 
 @dataclass
@@ -34,9 +39,9 @@ class settings:
 
 
 class priority_gen(Enum):
-    High = 1
-    Middle = 2
-    Low = 3
+    High = 0
+    Middle = 1
+    Low = 2
 
 
 @dataclass

@@ -1,92 +1,95 @@
-# main.py
-
-from datetime import datetime
-from typing import List
+import os
+import getpass
+from classes import Note
+from commands import command_loop
 from note_utils import (
     settings,
     settings_sorting,
-    settings_time_sort,
-    settings_time_type,
     settings_priority_category,
-    priority_gen,
-    date,
+    settings_time_type,
+    settings_time_sort,
 )
-from classes import Headed_note, Date_note, Note
-from classes import sorting
+import encryption
 
 
 def main():
-    # Create some date instances
-    date1 = date(_day=14, _month=5, _year=2024)
-    date2 = date(_day=20, _month=6, _year=2024)
+    try:
+        # Clear the terminal screen
+        os.system("clear")
 
-    # Create some notes
-    headed_note1 = Headed_note(
-        note="Discuss project milestones.",
-        header="Project Meeting",
-        priority_gen=priority_gen.High,
-    )
-    headed_note2 = Headed_note(
-        note="Plan team building activities.",
-        header="Team Building",
-        priority_gen=priority_gen.Middle,
-    )
-    dated_note1 = Date_note(
-        note="Submit project report.",
-        date=date1,
-        priority_gen=priority_gen.High,
-    )
-    dated_note2 = Date_note(
-        note="Finalize budget.",
-        date=date2,
-        priority_gen=priority_gen.Low,
-    )
-    regular_note = Date_note(
-        note="General note without specific date.",
-        date=date1,
-        priority_gen=priority_gen.Middle,
-    )
+        # Determine the executable's directory
+        exe_dir = os.path.dirname(os.path.abspath(__file__))
 
-    # Combine all notes into a list
-    notes: List[Note] = [
-        headed_note1,
-        dated_note1,
-        headed_note2,
-        dated_note2,
-        regular_note,
-    ]
+        # Construct the path to ../nlib/ relative to exe_dir
+        nlib_path = os.path.normpath(os.path.join(exe_dir, "../../nlib"))
 
-    # Define sorting settings
-    config = settings(
-        sorting=settings_sorting.Time_m,  # Sort by modification time
-        priority_category=settings_priority_category.Time,  # Prioritize Date_note
-        time_type=settings_time_type.Twenty_four,
-        time_sort=settings_time_sort.Newt,  # Newest first
-    )
+        # Ensure the ../nlib/ directory exists
+        if not os.path.exists(nlib_path):
+            os.makedirs(nlib_path)
 
-    # Before sorting
-    print("Before sorting:")
-    for note in notes:
-        note.show(config)
-        print("-" * 40)
+        # Construct the full path to notes.dat
+        filename = os.path.abspath(os.path.join(nlib_path, "notes.dat"))
 
-    # Sort the notes based on the configuration
-    sorting(notes, config)
+        # Initialize variables
+        notes = []
+        config = settings(
+            sorting=settings_sorting.Time,
+            priority_category=settings_priority_category.No,
+            time_type=settings_time_type.Twenty_four,
+            time_sort=settings_time_sort.Newt,
+        )
+        password = ""
 
-    config1 = settings(
-        sorting=settings_sorting.Priority_gen,  # Sort by modification time
-        priority_category=settings_priority_category.No,  # Prioritize Date_note
-        time_type=settings_time_type.Twenty_four,
-        time_sort=settings_time_sort.Newt,  # Newest first
-    )
+        # Check if file exists
+        file_exists = os.path.isfile(filename)
 
-    sorting(notes, config1)
+        # Prompt for password
+        if not file_exists:
+            # File does not exist; ask user to create a new password
+            password = getpass.getpass(
+                "No existing data found. Please create a new password: "
+            )
+            if not password:
+                print("Password cannot be empty. Exiting.")
+                return
+            print("New password set.")
+        else:
+            # File exists; ask user to enter the password
+            password = getpass.getpass("Please enter your password: ")
+            if not password:
+                print("Password cannot be empty. Exiting.")
+                return
 
-    # After sorting
-    print("\nAfter sorting:")
-    for note in notes:
-        note.show(config)
-        print("-" * 40)
+            # Attempt to load data from the file
+            try:
+                if not encryption.decrypt_data(notes, config, filename, password):
+                    print(
+                        "Failed to decrypt data. Incorrect password or corrupted file."
+                    )
+                    return
+                print("Data loaded successfully.")
+            except Exception as e:
+                print(f"Failed to load data: {e}")
+                print("Starting with empty notes and default settings.")
+
+        # Run the command loop
+        try:
+            command_loop(notes, config)
+        except Exception as e:
+            print(f"A fatal error occurred: {e}")
+
+        # Save data before exiting
+        try:
+            if not encryption.encrypt_data(notes, config, filename, password):
+                print("Failed to encrypt data.")
+            else:
+                print("Data saved successfully.")
+        except Exception as e:
+            print(f"Failed to save data: {e}")
+
+    except Exception as ex:
+        print(f"Initialization error: {ex}")
+        return
 
 
 if __name__ == "__main__":

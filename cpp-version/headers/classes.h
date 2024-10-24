@@ -9,7 +9,7 @@
 
 // <--------------------- FOR SERIALIZATION ---------------------->
 
-enum class NoteType : uint8_t { HeadedNote = 1, DateNote = 2 };
+enum class NoteType : uint8_t { HeadedNote = 0, DateNote = 1 };
 
 // <--------------------- BASE CLASS NOTE (ABSTRACT) ---------------------->
 
