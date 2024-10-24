@@ -1,6 +1,6 @@
 # EncryptTask
 
-A secure, console-based note-taking application written in C++, featuring AES-256 encryption using OpenSSL. The application allows users to create, view, edit, and delete notes securely. It prompts users for a password on startup and encrypts all stored data to ensure privacy.
+A secure, console-based note-taking application available in both C++ and Python, featuring AES-256 encryption. The C++ version uses OpenSSL, while the Python version uses the cryptography library. The application allows users to create, view, edit, and delete notes securely. It prompts users for a password on startup and encrypts all stored data to ensure privacy.
 
 By default, notes are stored in `project_dir/nlib/notes.dat`
 
@@ -8,70 +8,53 @@ By default, notes are stored in `project_dir/nlib/notes.dat`
 
 - [Features](#features)
 - [Prerequisites](#prerequisites)
-  - [macOS](#macos)
-  - [Linux (Debian/Ubuntu)](#linux-debianubuntu)
-- [Installation (macOS / Linux)](#installation-macos--linux)
+  - [C++ Dependencies](#c-dependencies)
+    - [macOS](#macos)
+    - [Linux (Debian/Ubuntu)](#linux-debianubuntu)
+  - [Python Dependencies](#python-dependencies)
+- [Installation](#installation)
+  - [C++ Installation](#c-installation)
+  - [Python Installation](#python-installation)
 - [Building the Application](#building-the-application)
-- [Running the Application (macOS / Linux)](#running-the-application-macos--linux)
+  - [Building C++ Version](#building-c-version)
+- [Running the Application](#running-the-application)
+  - [Running C++ Version](#running-c-version)
+  - [Running Python Version](#running-python-version)
 - [Usage](#usage)
   - [Commands](#commands)
 - [Uninstallation](#uninstallation)
-  - [macOS and Linux](#macos-and-linux)
 - [License](#license)
 - [Acknowledgements](#acknowledgements)
 
 ## Features
 
-- Secure storage of notes with AES-256 encryption.
-- Password protection on application startup.
+- Available in both C++ and Python implementations
+- Secure storage of notes with AES-256 encryption
+- Password protection on application startup
 - Support for different types of notes:
-  - **Headed Note**: Includes a header and content.
-  - **Date Note**: Associated with a specific date.
-- Priority levels for notes: High, Middle, Low.
-- Command-line interface for managing notes.
-- Cross-platform support: macOS and Linux.
+  - **Headed Note**: Includes a header and content
+  - **Date Note**: Associated with a specific date
+- Priority levels for notes: High, Middle, Low
+- Command-line interface for managing notes
+- Cross-platform support: macOS and Linux
 
 ## Prerequisites
 
-- **C++17** or later.
-- **CMake** version 3.10 or higher.
-- **OpenSSL** development libraries.
+### C++ Dependencies
 
-### macOS
+- **C++17** or later
+- **CMake** version 3.10 or higher
+- **OpenSSL** development libraries
 
-- **Xcode Command Line Tools**:
+### Python Dependencies
 
-  ```bash
-  xcode-select --install
-  ```
-
-- **Homebrew** (if not already installed):
-
-  ```bash
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  ```
-
-- **OpenSSL**:
-
-  ```bash
-  brew install openssl
-  ```
-
-### Linux (Debian/Ubuntu)
-
-- **Update package lists**:
-
-  ```bash
-  sudo apt-get update
-  ```
-
-- **Install required packages**:
-
-  ```bash
-  sudo apt-get install build-essential cmake libssl-dev
-  ```
+- Python 3.8 or later
+- Required packages (listed in python-version/requirements.txt):
+  - **cryptography==43.0.3**
 
 ## Installation (macOS / Linux)
+
+### C++
 
 1. **Clone the Repository**:
 
@@ -101,6 +84,15 @@ By default, notes are stored in `project_dir/nlib/notes.dat`
 
    - The executable will be placed in the `bin` directory inside the project root (`EncryptTask/bin/EncryptTask`).
 
+### Python
+
+1. **Clone the Repository**:
+
+   ```bash
+   git clone https://github.com/YaroslavTheOmen/EncryptTask.git
+   cd EncryptTask
+   ```
+
 ## Building the Application
 
 If you need to rebuild the application after making changes:
@@ -119,6 +111,8 @@ If you need to rebuild the application after making changes:
 
 ## Running the Application (macOS / Linux)
 
+### C++
+
 1. **Open Terminal**.
 
 2. **Navigate to the Executable**:
@@ -133,6 +127,24 @@ If you need to rebuild the application after making changes:
 
    ```bash
    ./EncryptTask
+   ```
+
+### Python
+
+1. **Open Terminal**.
+
+2. **Navigate to the Executable**:
+
+   ```bash
+   cd path_to_EncryptTask/python-version/src
+   ```
+
+   - Replace `path_to_EncryptTask` with the actual path to the `EncryptTask` project directory.
+
+3. **Run the Application**:
+
+   ```bash
+   python3 __main.py
    ```
 
 ## Usage
@@ -228,18 +240,13 @@ For more detailed information on each command, use the `:help` command within th
 
 ### macOS and Linux
 
-1. **Delete the Build and Binary Files**:
+1. **Delete the App, Remove Configuration and Data Files**:
 
    ```bash
-   rm -rf path_to_EncryptTask/build
-   rm -rf path_to_EncryptTask/bin
+   rm -rf path_to_EncryptTask
    ```
 
    - Replace `path_to_EncryptTask` with the actual path to the `EncryptTask` project directory.
-
-2. **Remove Configuration and Data Files**:
-
-   - Delete `notes.dat` or any other data files stored by the application in the project directory or your home directory.
 
 ## License
 
@@ -249,7 +256,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - **OpenSSL**: Used for encryption and decryption.
 - **CMake**: Build system generator.
-- **Contributors**: Thanks to everyone who has contributed to this project.
+- **Cryptography**: Used for encryption and decryption in Python version
 
 ---
 
