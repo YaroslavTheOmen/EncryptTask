@@ -1,4 +1,1 @@
-altgraph==0.17.2
-future==0.18.2
-macholib==1.15.2
-six==1.15.0
+cryptography==43.0.3
