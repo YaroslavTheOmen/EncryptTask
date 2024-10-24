@@ -8,3 +8,4 @@
 /venv/
 /python-version/venv/
 /python-version/src/__pycache__
+.mypy_cache
